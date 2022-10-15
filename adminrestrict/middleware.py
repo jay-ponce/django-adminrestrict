@@ -121,7 +121,13 @@ class AdminPagesRestrictMiddleware(parent_class):
         self.disallow_get = getattr(settings, 'ADMINRESTRICT_BLOCK_GET',
             False)
         self.denied_msg = getattr(settings, 'ADMINRESTRICT_DENIED_MSG',
+<<<<<<< Updated upstream
             "Access to admin is denied.")
+=======
+                                  "Access to admin is denied.")
+        self.denied_template = getattr(settings, 'ADMINRESTRICT_TEMPLATE',
+                                       "403.html")
+>>>>>>> Stashed changes
         self.allow_private_ip = getattr(settings, 'ADMINRESTRICT_ALLOW_PRIVATE_IP',
             False)
 
@@ -224,7 +230,13 @@ class AdminPagesRestrictMiddleware(parent_class):
                 return None
 
         if restricted_request_uri and request.method == 'POST':
+<<<<<<< Updated upstream
             if not self.request_ip_is_allowed(request):
+=======
+            if not self.request_ip_is_allowed(request) and self.denied_template:
+                return HttpResponseForbidden(self.denied_template)
+            elif not self.request_ip_is_allowed(request):
+>>>>>>> Stashed changes
                 return HttpResponseForbidden(self.denied_msg)
             else:
                 return None
